@@ -6,9 +6,9 @@ import {
 } from 'react-native'
 
 const Card = props => {
-  const {style} = props
+  const {stylesProps} = props
   return (
-    <View style={{...styles.card, ...style}}>
+    <View style={{...styles.card, ...stylesProps}}>
       {props.children}
     </View>
   )
