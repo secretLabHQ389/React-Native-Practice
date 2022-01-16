@@ -3,22 +3,23 @@ import {
   StyleSheet,
   View
 } from 'react-native'
+import Header from './components/Header'
+import StartGameScreen from './screens/StartGameScreen'
 
 //React 16.8 is the release of functional components
 
 export default function App() {
   
   return (
-    <View style={styles.container}>
+    <View style={styles.screen}>
+      <Header title='Guess a Number' />
+      <StartGameScreen />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  screen: {
+    flex: 1
   }
 })
