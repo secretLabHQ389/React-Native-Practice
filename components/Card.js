@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // backgroundColor: 'white',
     // borderRadius: 10,
+
     //only iOS:
     shadowColor: 'black',
     shadowOffset: {

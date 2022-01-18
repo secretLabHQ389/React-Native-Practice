@@ -1,20 +1,24 @@
 import React, {useState} from 'react'
 import {
   View,
-  Text,
   Button,
-  StyleSheet
+  StyleSheet,
+  Alert
   // TouchableWithoutFeedback,
   // Keyboard
 } from 'react-native'
 import Card from '../components/Card'
 import Colors from '../constants/colors'
 import Input from '../components/Input'
+import NumberContainer from '../components/NumberContainer'
+import TitleText from '../components/TitleText'
+import MainButton from '../components/MainButton'
 
 const StartGameScreen = props => {
   const [enteredValue, setEnteredValue] = useState('')
   const [confirmed, seConfirmed] = useState(false)
   const [selectedNumber, setSelectedNumber] = useState()
+  const {onStartGame} = props
 
   const numberInputHandler = inputText => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''))
@@ -27,9 +31,10 @@ const StartGameScreen = props => {
 
   const confirmInputHandler = () => {
     const chosenNumber = parseInt(enteredValue)
-    if (chosenNumber === NaN 
+    if (isNaN(chosenNumber) 
       || chosenNumber <= 0
       || chosenNumber > 99) {
+      Alert.alert('Invalid number!', 'Number between 1 and 99 required.', [{text: 'Okay', style: 'destructive', onPress: resetInputHandler}])
       return
     }
     seConfirmed(true)
@@ -40,7 +45,15 @@ const StartGameScreen = props => {
   let confirmedOutput
 
   if (confirmed) {
-    confirmedOutput = <Text>Chosen Number: {selectedNumber}</Text>
+    confirmedOutput = (
+      <Card stylesProps={styles.summaryContainer}>
+        <TitleText>You selected:</TitleText>
+        <NumberContainer>{selectedNumber}</NumberContainer>
+        <MainButton onPressProp={() => onStartGame(selectedNumber)}>
+          START GAME
+        </MainButton>
+      </Card>
+    )
   }
 
   return (
@@ -48,9 +61,9 @@ const StartGameScreen = props => {
     //   Keyboard.dismiss()
     // }}>
       <View style={styles.screen}>
-        <Text style={styles.title}>Start a New Game!</Text>
+        <TitleText style={styles.title}>Start a New Game!</TitleText>
         <Card stylesProps={styles.inputContainer}>
-          <Text>Select a Number</Text>
+          <TitleText style={styles.title}>Select a Number</TitleText>
           <Input 
             stylesProps={styles.input} 
             blurOnSubmit
@@ -80,12 +93,16 @@ const styles = StyleSheet.create({
   },
   title: {
     marginVertical: 10,
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: 'open-sans-bold'
   },
   inputContainer: {
     padding: 20,
-    width: 300,
-    maxWidth: '80%',
+    // width: 300,
+    // maxWidth: '80%',
+    width: '80%',
+    minWidth: 300,
+    maxWidth: '95%',
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10
@@ -102,6 +119,10 @@ const styles = StyleSheet.create({
   input: {
     width: 50,
     textAlign: 'center'
+  },
+  summaryContainer: {
+    marginTop: 20,
+    alignItems: 'center'
   }
 })
 
