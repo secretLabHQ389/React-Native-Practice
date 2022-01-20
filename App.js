@@ -14,6 +14,8 @@ import AppLoading from 'expo-app-loading'
 
 //React 16.8 is the release of functional components
 
+//app.json:     "orientation": "portrait", "landscape", "default"
+
 const fetchFonts = () => {
   Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),

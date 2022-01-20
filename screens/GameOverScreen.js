@@ -1,15 +1,10 @@
-import React, {
-    useState, 
-    useRef, 
-    useEffect
-  } from 'react'
+import React from 'react'
 import {
   View,
   Text,
-  Button,
   StyleSheet,
-  Alert,
-  Image
+  Image,
+  ScrollView
   // TouchableWithoutFeedback,
   // Keyboard
 } from 'react-native'
@@ -21,23 +16,25 @@ import MainButton from '../components/MainButton'
 const GameOverScreen = props => {
   const {roundsNumber, userNumber, onRestart} = props
   return (
-    <View style={styles.screen}>
-      <TitleText>The Game is Over</TitleText>
-      <Image 
-        fadeDuration={1000}
-        style={styles.image} 
-        source={require('../assets/favicon.png')}
-        //source={{uri: 'link-to-image'}}
-        resizeMode='container'
-        />
-      <View style={styles.resultContainer}>
-        <BodyText>Number of Rounds: <Text style={styles.highlight}>{roundsNumber}</Text></BodyText>
-        <BodyText>Number was: {userNumber}</BodyText>
+    <ScrollView>
+      <View style={styles.screen}>
+        <TitleText>The Game is Over</TitleText>
+        <Image 
+          fadeDuration={1000}
+          style={styles.image} 
+          source={require('../assets/favicon.png')}
+          //source={{uri: 'link-to-image'}}
+          resizeMode='container'
+          />
+        <View style={styles.resultContainer}>
+          <BodyText>Number of Rounds: <Text style={styles.highlight}>{roundsNumber}</Text></BodyText>
+          <BodyText>Number was: {userNumber}</BodyText>
+        </View>
+        <MainButton onPressProp={onRestart}>
+          New Game
+        </MainButton>
       </View>
-      <MainButton onPressProp={onRestart}>
-        New Game
-      </MainButton>
-    </View>
+    </ScrollView>
   )
 }
 
