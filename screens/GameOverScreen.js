@@ -40,6 +40,7 @@ const GameOverScreen = props => {
 
 const styles = StyleSheet.create({
   screen: {
+    paddingVertical: 10,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'

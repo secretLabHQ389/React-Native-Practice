@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View
 } from 'react-native'
+import { SafeAreaView } from 'react-native-web'
 import Header from './components/Header'
 import StartGameScreen from './screens/StartGameScreen'
 import GameScreen from './screens/GameScreen'
@@ -54,11 +55,11 @@ export default function App() {
     content = <GameOverScreen roundsNumber={guessRounds} userNumber={userNumber} onRestart={configureNewGameHandler} />
   }
   return (
-    <View style={styles.screen}>
+    <SafeAreaView style={styles.screen}>
       <Header title='Guess a Number' />
       {/* <StartGameScreen onStartGame={startGameHandler} /> */}
       {content}
-    </View>
+    </SafeAreaView>
   )
 }
 

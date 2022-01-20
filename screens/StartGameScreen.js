@@ -15,6 +15,7 @@ import Colors from '../constants/colors'
 import Input from '../components/Input'
 import NumberContainer from '../components/NumberContainer'
 import TitleText from '../components/TitleText'
+//Will import android or ios automatically if don't include in ext:
 import MainButton from '../components/MainButton'
 
 const StartGameScreen = props => {
@@ -26,7 +27,7 @@ const StartGameScreen = props => {
 
   useEffect(() => {
     const updateLayout = () => {
-      setButtonWidth(Dimension.get('window').width / 4)
+      setButtonWidth(Dimensions.get('window').width / 4)
     }
     Dimensions.addEventListener('change', updateLayout)
     return () => {
@@ -74,7 +75,8 @@ const StartGameScreen = props => {
     // <TouchableWithoutFeedback onPress={() => {
     //   Keyboard.dismiss()
     // }}>
-    <ScrollView>
+    // <ScrollView>
+    <View>
       <KeyboardAvoidingView 
         behavior='position'
         keyboardVerticalOffset={30}
@@ -101,7 +103,8 @@ const StartGameScreen = props => {
           {confirmedOutput}
         </View>
       </KeyboardAvoidingView>
-    </ScrollView>
+    {/* </ScrollView> */}
+    </View>
     // </TouchableWithoutFeedback>
   )
 }

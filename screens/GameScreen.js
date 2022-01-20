@@ -21,6 +21,9 @@ import defaultStyles from '../constants/default-styles'
 import MainButton from '../components/MainButton'
 import { ScrollView } from 'react-native-web'
 import BodyText from '../components/TitleText'
+//import { ScreenOrientation } from 'expo'
+//expo i expo-screen-orientation
+//import * as ScreenOrientation from 'expo-screen-orientation'
 
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min)
@@ -53,6 +56,9 @@ const renderListItem = (guess, numOfRound) => {
 // }
 
 const GameScreen = props => {
+  //ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT)
+  //ScreenOrientation.
+
   const { userChoice, onGameOver } = props
   const initialGuess = generateRandomBetween(1, 100, userChoice)
   //const [rounds, setRounds] = useState(0)

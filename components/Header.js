@@ -2,7 +2,8 @@ import React from 'react'
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Platform
 } from 'react-native'
 import Colors from '../constants/colors'
 import TitleText from './TitleText'
@@ -21,12 +22,14 @@ const styles = StyleSheet.create({
     paddingTop: 36,
     width: '100%',
     height: 90,
-    backgroundColor: Colors.primary,
+    backgroundColor: Platform.OS === 'android' ? Colors.primary : Colors.primary,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderBottomColor: Platform.OS === 'ios' ? '#ccc' : 'transparent',
+    borderBottomWidth: Platform.OS === 'ios' ? 1 : 0
   },
   headerTitle: {
-    color: 'black',
+    color: Platform.OS === 'ios' ? 'white' : 'black',
     fontSize: 18,
     fontFamily: 'open-sans-bold'
   }
