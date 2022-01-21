@@ -2,13 +2,18 @@ import React from 'react'
 import {
   View,
   Text,
+  Button,
   StyleSheet
 } from 'react-native'
 
 const MealDetailScreen = props => {
+  const {navigation} = props
   return (
     <View>
-      <text>The Meal Detail Screen</text>
+      <Text>The Meal Detail Screen</Text>
+      <Button title='Go Back to Categories' onPress={() => {
+          navigation.popToTop() //goes back to root screen
+        }} />
     </View>
   )
 }

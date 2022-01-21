@@ -8,7 +8,7 @@ import {
 const FavoritesScreen = props => {
   return (
     <View>
-      <text>The Favorites Screen</text>
+      <Text>The Favorites Screen</Text>
     </View>
   )
 }

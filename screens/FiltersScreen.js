@@ -8,7 +8,7 @@ import {
 const FilterScreen = props => {
   return (
     <View>
-      <text>The Filter Screen</text>
+      <Text>The Filter Screen</Text>
     </View>
   )
 }
