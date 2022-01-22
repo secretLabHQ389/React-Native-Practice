@@ -6,27 +6,27 @@ import {
   StyleSheet,
   FlatList
 } from 'react-native'
-import { TouchableOpacity, Platform } from 'react-native-web'
-import Colors from '../constants/Colors'
+import { TouchableOpacity/*, Platform */} from 'react-native-web'
+//import Colors from '../constants/Colors'
 import { CATEGORIES } from '../data/dummy-data'
+import CategoryGridTile from '../components/CategoryGridTile'
 
 const CategoriesScreen = props => {
   const {navigation} = props
   const renderGridItem = itemData => {
     return (
-      <TouchableOpacity style={styles.gridItem} onPress={() => {
-        navigation.navigate({
-          routeName: 'CategoryMeals',
-          params: {
-            categoryId: itemData.item.id
-          }
-        }),
-        console.log('itemData.item.id: ', itemData.item.id)
-      }}>
-        <View>
-          <Text>{itemData.item.title}</Text>
-        </View>
-      </TouchableOpacity>
+      <CategoryGridTile 
+        title={itemData.item.title}
+        color={itemData.item.color}
+        onSelect={() => {
+          navigation.navigate({
+            routeName: 'CategoryMeals',
+            params: {
+              categoryId: itemData.item.id
+            }
+          })
+        }}
+        />
     )
   }
   return (
@@ -54,11 +54,11 @@ const CategoriesScreen = props => {
 }
 
 CategoriesScreen.navigationOptions = {
-  headerTitle: 'Meal Categories',
-  headerStyle: {
-    backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : 'white'
-  },
-  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.accentColor
+  headerTitle: 'Meal Categories'//,
+  // headerStyle: {
+  //   backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : 'white'
+  // },
+  // headerTintColor: Platform.OS === 'android' ? 'white' : Colors.accentColor
 }
 
 const styles = StyleSheet.create({
@@ -66,11 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  gridItem: {
-    margin: 15,
-    flex: 1,
-    height: 150
   }
 })
 
