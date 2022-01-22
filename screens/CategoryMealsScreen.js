@@ -25,7 +25,9 @@ const CategoryMealScreen = props => {
 
 //all undefined:
 CategoryMealScreen.navigationOptions = navigationData => {
+  console.log('navigationData: ', navigationData)
   const catId = navigationData.navigation.getParam('categoryId')
+  //const catId = navigationData.navigation.state.params('categoryId')
   console.log('catId: ', catId)
   const selectedCategory = CATEGORIES.find(cat => cat.id === catId)
   console.log('selectedCategory: ', selectedCategory)
