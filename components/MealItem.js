@@ -44,6 +44,7 @@ const MealItem = props => {
 
 const styles = StyleSheet.create({
   mealItem: {
+    marginVertical: 10,
     height: 350,
     width: '100%',
     backgroundColor: '#f5f5f5',

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 150,
     borderRadius: 10,
-    overflow: 'hidden'
+    overflow: Platform.OS === 'android' && Platform.OS >= 21 ? 'hidden' : 'visible' //hides shadows
   },
   container: {
     padding: 10,
