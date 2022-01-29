@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
-import { Text, View } from 'react-native'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
-
+//import { useScreens } from 'react-native-screens'
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
 import MealsNavigator from './navigation/MealsNavigator'
+import mealsReducer from './store/reducers/meals'
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -11,6 +13,12 @@ const fetchFonts = () => {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
   })
 }
+
+const rootReducer = combineReducers({
+  meals: mealsReducer
+})
+
+const store = createStore(rootReducer)
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false)
@@ -24,7 +32,9 @@ const App = () => {
     )
   }
   return (
-    <MealsNavigator />
+    <Provider store={store}>
+      <MealsNavigator />
+    </Provider>
   )
 }
 

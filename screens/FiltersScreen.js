@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   View,
   Text,
@@ -39,7 +39,9 @@ const FilterScreen = props => {
   const [isVegan, setIsVegan] = useState(false)
   const [isVegetarian, setIsVegetarian] = useState(false)
 
-  const saveFilters = () => {
+  //useCallback makes the fn only re-defined and then re-run if dependencies change,
+  //not on every component re-render
+  const saveFilters = useCallback(() => {
     const appliedFilters = {
       glutenFree: isGlutenFree,
       lactoseFree: isLactoseFree,
@@ -47,13 +49,13 @@ const FilterScreen = props => {
       vegetarian: isVegetarian
     }
     console.log(appliedFilters)
-  }
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian])
 
   useEffect(() => {
     navigation.setParams({
       save: saveFilters
     })
-  }, [])
+  }, [saveFilters])
 
   return (
     <View style={styles.screen}>
@@ -100,7 +102,7 @@ FilterScreen.navigationOptions = navData => {
         <Item 
           title='Save' 
           iconName='ios-save' 
-          onPress={() => saveFilters()} 
+          onPress={navData.navigation.getParam('save')} 
           />
     </HeaderButtons>
     )
