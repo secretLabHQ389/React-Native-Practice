@@ -11,6 +11,7 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import { useSelector, useDispatch } from 'react-redux'
 import DefaultText from '../components/DefaultText'
 import { toggleFavorite } from '../store/actions/meals'
+import { Ionicons } from '@expo/vector-icons'
 
 const ListItem = props => {
   const {children} = props
@@ -25,6 +26,7 @@ const MealDetailScreen = props => {
   const {navigation} = props
   const mealId = navigation.getParam('mealId')
   const availableMeals = useSelector(state => state.meals.meals)
+  const currentMealIsFavorite = useSelector(state => state.meals.favoriteMeals.some(meal => meal.id === mealId))
   const selectedMeal = availableMeals.find(meal => meal.id === mealId)
   const dispatch = useDispatch()
   const toggleFavoriteHandler = useCallback(() => {
@@ -36,6 +38,9 @@ const MealDetailScreen = props => {
   useEffect(() => {
     navigation.setParams({toggleFav: toggleFavoriteHandler})
   }, [toggleFavoriteHandler])
+  useEffect(() => {
+    navigation.setParams({isFav: currentMealIsFavorite})
+  }, [currentMealIsFavorite])
   return (
     <ScrollView>
       <Image 
@@ -66,12 +71,13 @@ const MealDetailScreen = props => {
 MealDetailScreen.navigationOptions = navigationData => {
   const mealTitle = navigationData.navigation.getParam('mealTitle')
   const toggleFavorite = navigationData.navigation.getParam('toggleFav')
+  const isFavorite = navigationData.navigation.getParam('isFav')
   return {
     headerTitle: mealTitle,
     headerRight: <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item 
+      <Ionicons 
         title='Favorite' 
-        iconName='ios-star' 
+        name={isFavorite ? 'ios-star' : 'ios-star-outline'}
         onPress={toggleFavorite}
         />
     </HeaderButtons>

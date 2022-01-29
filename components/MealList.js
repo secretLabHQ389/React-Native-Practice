@@ -6,10 +6,13 @@ import {
 } from 'react-native'
 import { FlatList } from 'react-native-web'
 import MealItem from './MealItem'
+import { useSelector } from 'react-redux'
 
 const MealList = props => {
   const {listData, navigation} = props
+  const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
   const renderMealItem = itemData => {
+    const isFav = favoriteMeals.find(meal => meal.id === itemData.item.id)
     return (
       <MealItem 
         title={itemData.item.title} 
@@ -22,7 +25,8 @@ const MealList = props => {
           routeName: 'MealDetail', 
           params: {
             mealId: itemData.item.id,
-            mealTitle: itemData.item.title
+            mealTitle: itemData.item.title,
+            isFav: isFav
           }
         })
         }}

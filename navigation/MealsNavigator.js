@@ -85,7 +85,7 @@ const tabScreenConfig = {
 }
 
 const MealsFavTabNavigator = 
-  Platform.OS === 'andreid' ? 
+  Platform.OS === 'android' ? 
   createMaterialBottomTabNavigator(tabScreenConfig, {
     activeColor: Colors.accentColor,
     shifting: true
