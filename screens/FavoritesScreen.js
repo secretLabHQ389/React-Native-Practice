@@ -5,7 +5,7 @@ import {
   StyleSheet
 } from 'react-native'
 import MealList from '../components/MealList'
-import { MEALS } from '../data/dummy-data'
+import { useSelector } from 'react-redux'
 import {
   HeaderButtons, 
   Item
@@ -14,10 +14,10 @@ import HeaderButton from '../components/HeaderButton'
 
 const FavoritesScreen = props => {
   const {navigation} = props
-  const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2')
+  const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
   return (
     <MealList
-      listData={favMeals}
+      listData={favoriteMeals}
       navigation={navigation}
       />
   )
