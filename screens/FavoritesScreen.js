@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   View,
-  Text,
   StyleSheet
 } from 'react-native'
 import MealList from '../components/MealList'
@@ -11,10 +10,18 @@ import {
   Item
 } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
+import DefaultText from '../components/DefaultText'
 
 const FavoritesScreen = props => {
   const {navigation} = props
   const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
+  if (favoriteMeals.length === 0 || !favoriteMeals) {
+    return (
+    <View>
+      <DefaultText style={styles.screen}>No favorites yet!</DefaultText>
+    </View>
+    )
+  }
   return (
     <MealList
       listData={favoriteMeals}

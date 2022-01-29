@@ -5,6 +5,7 @@ import {
   //Switch,
   StyleSheet
 } from 'react-native'
+import { useDispatch } from 'react-redux'
 import {Switch} from 'react-native-web'
 import {
   HeaderButtons, 
@@ -12,6 +13,7 @@ import {
 } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
 import Colors from '../constants/Colors'
+import { setFilters } from '../store/actions/meals'
 
 const FilterSwitch = props => {
   const { 
@@ -38,6 +40,7 @@ const FilterScreen = props => {
   const [isLactoseFree, setIsLactoseFree] = useState(false)
   const [isVegan, setIsVegan] = useState(false)
   const [isVegetarian, setIsVegetarian] = useState(false)
+  const dispatch = useDispatch
 
   //useCallback makes the fn only re-defined and then re-run if dependencies change,
   //not on every component re-render
@@ -48,8 +51,8 @@ const FilterScreen = props => {
       vegan: isVegan,
       vegetarian: isVegetarian
     }
-    console.log(appliedFilters)
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian])
+    dispatch(setFilters(appliedFilters))
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch])
 
   useEffect(() => {
     navigation.setParams({
