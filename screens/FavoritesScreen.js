@@ -17,8 +17,8 @@ const FavoritesScreen = props => {
   const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
   if (favoriteMeals.length === 0 || !favoriteMeals) {
     return (
-    <View>
-      <DefaultText style={styles.screen}>No favorites yet!</DefaultText>
+    <View style={styles.screen}>
+      <DefaultText>No favorites yet!</DefaultText>
     </View>
     )
   }
