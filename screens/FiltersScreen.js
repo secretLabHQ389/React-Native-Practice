@@ -40,8 +40,7 @@ const FilterScreen = props => {
   const [isLactoseFree, setIsLactoseFree] = useState(false)
   const [isVegan, setIsVegan] = useState(false)
   const [isVegetarian, setIsVegetarian] = useState(false)
-  const dispatch = useDispatch
-
+  const dispatch = useDispatch()
   //useCallback makes the fn only re-defined and then re-run if dependencies change,
   //not on every component re-render
   const saveFilters = useCallback(() => {
@@ -52,7 +51,7 @@ const FilterScreen = props => {
       vegetarian: isVegetarian
     }
     dispatch(setFilters(appliedFilters))
-  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian, dispatch])
+  }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]) //including dispatch will break it- wrong nested hook
 
   useEffect(() => {
     navigation.setParams({
