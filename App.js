@@ -4,8 +4,6 @@ import AppLoading from 'expo-app-loading'
 //import { useScreens } from 'react-native-screens'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
-import MealsNavigator from './navigation/MealsNavigator'
-import mealsReducer from './store/reducers/meals'
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -15,7 +13,6 @@ const fetchFonts = () => {
 }
 
 const rootReducer = combineReducers({
-  meals: mealsReducer
 })
 
 const store = createStore(rootReducer)
@@ -33,7 +30,9 @@ const App = () => {
   }
   return (
     <Provider store={store}>
-      <MealsNavigator />
+      <View>
+        <Text>New shop app!</Text>
+      </View>
     </Provider>
   )
 }
