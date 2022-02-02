@@ -8,7 +8,7 @@ import productsReducer from './store/reducers/products'
 import ShopNavigator from './navigation/ShopNavigator'
 
 const fetchFonts = () => {
-  Font.loadAsync({
+  return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
   })
