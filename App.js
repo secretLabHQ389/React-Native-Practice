@@ -5,7 +5,9 @@ import AppLoading from 'expo-app-loading'
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
 import productsReducer from './store/reducers/products'
+import cartReducer from './store/reducers/cart'
 import ShopNavigator from './navigation/ShopNavigator'
+//import { composeWithDevTools } from 'redux-devtools-extension'
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -15,10 +17,11 @@ const fetchFonts = () => {
 }
 
 const rootReducer = combineReducers({
-  products: productsReducer
+  products: productsReducer,
+  cart: cartReducer
 })
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer /*, composeWithDevTools() */)
 
 const App = () => {
   const [fontLoaded, setFontLoaded] = useState(false)
