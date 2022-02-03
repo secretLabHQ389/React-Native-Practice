@@ -21,7 +21,7 @@ const ProductItem = props => {
     title,
     price,
     onViewDetail,
-    onAddToCart
+    navigation
   } = props
   let TouchableCmp = TouchableOpacity
   if (Platform.OS === 'androind' && Platform.version >= 21) {
@@ -51,7 +51,7 @@ const ProductItem = props => {
             />
           <Button 
             title='To Cart'
-            onPress={onAddToCart}
+            onPress={() => navigation.navigate('Cart')}
             color={Colors.primaryColor}
             />
         </View>
