@@ -17,7 +17,8 @@ const CartItem = props => {
     quantity,
     title,
     amount,
-    onRemove
+    onRemove,
+    deletable
   } = props
   return (
     <View style={styles.cartItem}>
@@ -27,7 +28,7 @@ const CartItem = props => {
       </View>
       <View style={styles.itemBody}>
         <Text style={styles.amount}>${amount}</Text>
-        <TouchableOpacity 
+        {deletable && <TouchableOpacity 
           style={styles.deleteBtn}
           onPress={onRemove}
           >
@@ -36,7 +37,7 @@ const CartItem = props => {
             size={23}
             color='red'
             />
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </View>
   )
