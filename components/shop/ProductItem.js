@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  Button,
   StyleSheet
 } from 'react-native'
 import {
@@ -11,7 +10,6 @@ import {
   TouchableNativeFeedback,
   Platform
 } from 'react-native-web'
-import Colors from '../../constants/Colors'
 
 //lect. 169 debugging styling with View tags
 
@@ -20,8 +18,9 @@ const ProductItem = props => {
     image,
     title,
     price,
-    onViewDetail,
-    navigation
+    onSelect,
+    navigation,
+    children
   } = props
   let TouchableCmp = TouchableOpacity
   if (Platform.OS === 'androind' && Platform.version >= 21) {
@@ -29,7 +28,7 @@ const ProductItem = props => {
   }
   return (
     <TouchableCmp 
-      onPress={onViewDetail}
+      onPress={onSelect}
       useForeground
       >
       <View style={styles.product}>
@@ -44,16 +43,7 @@ const ProductItem = props => {
           <Text style={styles.price}>{parseInt(price.toFixed(2))}</Text>
         </View>
         <View style={styles.actions}>
-          <Button 
-            title='View Details'
-            onPress={onViewDetail}
-            color={Colors.primaryColor}
-            />
-          <Button 
-            title='To Cart'
-            onPress={() => navigation.navigate('Cart')}
-            color={Colors.primaryColor}
-            />
+          {children}
         </View>
       </View>
     </TouchableCmp>
