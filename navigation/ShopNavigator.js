@@ -8,6 +8,7 @@ import {
   Platform 
 } from 'react-native-web'
 import ProductDetailScreen from '../screens/shop/ProductDetailsScreen'
+import EditProductScreen from '../screens/user/EditProductScreen'
 import CartScreen from '../screens/shop/CartScreen'
 import OrdersScreen from '../screens/shop/OrdersScreen'
 import UserProductsScreen from '../screens/user/UserProductsScreen'
@@ -61,6 +62,7 @@ const OrdersNavigator = createStackNavigator({
 })
 
 const AdminsNavigator = createStackNavigator({
+  EditProduct: EditProductScreen,
   UserProducts: UserProductsScreen
 }, {
   navigationOptions: {
