@@ -3,7 +3,7 @@ import React, {
   useEffect, 
   useCallback 
 } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   View,
   Text,
@@ -19,9 +19,11 @@ import {
   Item
 } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
+import * as productActions from '../../store/actions/products'
 
 const EditProductScreen = props => {
   const { navigation } = props
+  const dispatch = useDispatch()
   const prodId = navigation.getParam('productId')
   const editedProduct = useSelector(state => 
     state.products.userProducts.find(prod => prod.id === prodId)
@@ -33,7 +35,14 @@ const EditProductScreen = props => {
   
   const submitHandler = useCallback(() => {
     console.log('Submitting!')
-  }, [])
+    if (editedProduct) {
+      dispatch(productActions.updateProduct(prodId, title, description, imageUrl))
+    } else {
+      dispatch(productActions.createProduct(title, description, imageUrl, +price))
+    }
+  }, 
+  //[productActions.updateProduct, productActions.createProduct])
+  [dispatch, prodId, title, description, imageUrl, price])
 
   useEffect(() => {
     navigation.setParams({'submit': submitHandler})
@@ -80,6 +89,7 @@ const EditProductScreen = props => {
 }
 
 EditProductScreen.navigationOptions = navData => {
+  const submitFn = navData.navigation.getParam('submit')
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add product',
     headerRight: (
@@ -87,9 +97,7 @@ EditProductScreen.navigationOptions = navData => {
         <Item 
           title='Save'
           iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-          onPress={() => {
-            
-          }}
+          onPress={submitFn}
           />
       </HeaderButtons>
     )

@@ -20,6 +20,7 @@ import Colors from '../../constants/Colors'
 const ProductsOverviewScreen = props => {
   const {navigation} = props
   const products = useSelector(state => state.products.availableProducts)
+  console.log('products: ', products)
   const dispatch = useDispatch()
   const selectItemHandler = (id, title) => {
     navigation.navigate(
