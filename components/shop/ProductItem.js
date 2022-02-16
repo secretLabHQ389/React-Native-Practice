@@ -10,6 +10,7 @@ import {
   TouchableNativeFeedback,
   Platform
 } from 'react-native-web'
+import Card from '../UI/Card'
 
 //lect. 169 debugging styling with View tags
 
@@ -31,7 +32,7 @@ const ProductItem = props => {
       onPress={onSelect}
       useForeground
       >
-      <View style={styles.product}>
+      <Card style={styles.product}>
         <View style={styles.imageContainer}>
           <Image 
             source={{uri: image}}
@@ -45,7 +46,7 @@ const ProductItem = props => {
         <View style={styles.actions}>
           {children}
         </View>
-      </View>
+      </Card>
     </TouchableCmp>
   )
 }
@@ -53,34 +54,28 @@ const ProductItem = props => {
 const styles = StyleSheet.create({
   product: {
     margin: 20,
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    height: 300,
+    minHeight: 700,
     overflow: 'hidden'
   },
   image: {
+    marginVertical: 15,
     width: '100%',
     height: '60%'
   },
   title: {
-    marginVertical: 4,
+    // marginVertical: 15,
     fontSize: 18,
-    fontFamily: 'open-sans-bold'
+    fontFamily: 'open-sans-bold',
+    display: 'block'
   },
   price: {
+    marginVertical: 10,
     fontSize: 14,
     color: '#888',
     fontFamily: 'open-sans'
   },
   actions: {
+    marginVertical: 10,
     paddingHorizontal: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',

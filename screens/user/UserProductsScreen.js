@@ -5,7 +5,8 @@ import {
 } from 'react-native'
 import {
   FlatList,
-  Platform
+  Platform,
+  Alert
 } from 'react-native-web'
 import ProductItem from '../../components/shop/ProductItem'
 import { 
@@ -17,12 +18,18 @@ import Colors from '../../constants/Colors'
 import { deleteProduct } from '../../store/actions/products'
 
 const UserProductsScreen = props => {
+  //show this component in Admin
   const {navigation} = props
   const userProducts = useSelector(state => state.products.userProducts)
   const dispatch = useDispatch()
   const  editProductHandler = id => {
     navigation.navigate('EditProduct', {productId: id})
   }
+
+  const deleteHandler = id => {
+    Alert.alert('Are you sure?', 'Do you really want to delete this item?', [{text: 'No', style: 'default'}, {test: 'Yes', style: 'destructive', onPress: () => dispatch(deleteProduct(id))}])
+  }
+
   return (
     <FlatList
       data={userProducts}
@@ -46,9 +53,7 @@ const UserProductsScreen = props => {
           <Button
             color={Colors.primaryColor}
             title='Delete'
-            onPress={() => {
-              dispatch(deleteProduct(itemData.item.id))
-            }}
+            onPress={() => deleteHandler(itemData.item.id)}
             />
         </ProductItem>
       }

@@ -40,6 +40,7 @@ const EditProductScreen = props => {
     } else {
       dispatch(productActions.createProduct(title, description, imageUrl, +price))
     }
+    navigation.goBack()
   }, 
   //[productActions.updateProduct, productActions.createProduct])
   [dispatch, prodId, title, description, imageUrl, price])
