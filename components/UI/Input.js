@@ -5,6 +5,8 @@ import {
   View,
   StyleSheet
 } from 'react-native'
+//Still doesnt work in browser:
+//import {TextInput} from 'react-native-web'
 
 const INPUT_CHANGE = 'INPUT_CHANGE'
 const INPUT_BLUR = 'INPUT_BLUR'

@@ -1,7 +1,8 @@
 import React, { 
   useEffect, 
   useCallback,
-  useReducer 
+  useReducer,
+  useState 
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -11,7 +12,8 @@ import {
   StyleSheet,
   Platform,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ActivityIndicator
 } from 'react-native'
 import {
   ScrollView
@@ -22,15 +24,20 @@ import {
 } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import * as productActions from '../../store/actions/products'
+import {
+  createProduct
+} from '../../store/actions/products'
 import Input from '../../components/UI/Input'
+import Colors from '../../constants/Colors'
 
 const FORM_UPDATE = 'FORM_UPDATE'
 
 //avoids unnecessary re-creations by being outside:
 const formReducer = (state, action) => {
   if (action.type === 'FORM_UPDATE') {
+    console.log('form update action: ', action)
     const updatedValues = {
-      ...state.inputValidities,
+      ...state.inputValues,
       [action.input]: action.value
     }
     const updatedValidities = {
@@ -51,6 +58,8 @@ const formReducer = (state, action) => {
 }
 
 const EditProductScreen = props => {
+  cosnt [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const { navigation } = props
   const dispatch = useDispatch()
   const prodId = navigation.getParam('productId')
@@ -73,31 +82,47 @@ const EditProductScreen = props => {
     },
     formIsValid: false
   })
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An error occured! ', error, [{text: 'Okay'}])
+    }
+  }, [error])
   
-  const submitHandler = useCallback(() => {
-    console.log('Submitting!')
-    if (!formState.formIsValid) {
-      Alert.alert('Invaid title', 'Please check the errors in the form.', [
-        {text: 'Okay'}
-      ])
-      return
+  const submitHandler = useCallback(async () => {
+    console.log('Submitting: ',          formState.inputValues.title,
+    formState.inputValues.description,
+    formState.inputValues.imageUrl,
+    +formState.inputValues.price)
+    // if (!formState.formIsValid) {
+    //   Alert.alert('Invaid title', 'Please check the errors in the form.', [
+    //     {text: 'Okay'}
+    //   ])
+    //   return
+    // }
+    setError(false)
+    setIsLoading(true)
+    try {
+      if (editedProduct) {
+        await dispatch(productActions.updateProduct(
+          prodId, 
+          formState.inputValues.title, 
+          formState.inputValues.description, 
+          formState.inputValues.imageUrl
+        ))
+      } else {
+        await dispatch(createProduct(
+           formState.inputValues.title,
+           formState.inputValues.description,
+           formState.inputValues.imageUrl,
+           +formState.inputValues.price
+        ))
+      }
+      navigation.goBack()
+    } catch (err) {
+      setError(err.message)
     }
-    if (editedProduct) {
-      dispatch(productActions.updateProduct(
-        prodId, 
-        formState.inputValues.title, 
-        formState.inputValues.description, 
-        formState.inputValues.imageUrl
-      ))
-    } else {
-      dispatch(productActions.createProduct(
-         formState.inputValues.title,
-         formState.inputValues.description,
-         formState.inputValues.imageUrl,
-         +formState.inputValues.price
-      ))
-    }
-    navigation.goBack()
+    setIsLoading(false)
   }, 
   //[productActions.updateProduct, productActions.createProduct])
   [/*dispatch,*/ prodId, formState])
@@ -107,6 +132,7 @@ const EditProductScreen = props => {
   }, [submitHandler])
 
   const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
+    
     dispatchFormState({
       type: FORM_UPDATE, 
       value: inputValue, 
@@ -114,6 +140,14 @@ const EditProductScreen = props => {
       input: inputIdentifier
     })
   }, [dispatchFormState])
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size='large' color={Colors.primaryColor} />
+      </View>
+    )
+  }
   
   return (
     //reserve entire screen with flex 1:
@@ -128,6 +162,8 @@ const EditProductScreen = props => {
           autoCapitalize='sentences'
           autoCorrect
           returnKeyType='next'
+          //not working in the browser:
+          //onInputChange={console.log('oninputchange works')}
           onInputChange={inputChangeHandler}
           initialValue={editedProduct? editedProduct.title : ''}
           initiallyValid={!!editedProduct}
@@ -202,6 +238,11 @@ EditProductScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
   form: {
     margin: 20
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
