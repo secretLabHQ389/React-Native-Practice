@@ -6,11 +6,8 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 export const fetchProducts = () => {
-  // return dispatch => {
-  //   dispatch({type: SET_PRODUCTS, products: []})
-  // }
-
   console.log('fetchProduct action called')
+  const userId = getState().auth.userId
   return async dispatch => {
     try {
       const response = await fetch('https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products.json')
@@ -26,7 +23,7 @@ export const fetchProducts = () => {
       for (const key in  resData) {
         loadedProducts.push(new Product(new Product(
           key, 
-          'u1', 
+          resData[key].ownerId,
           resData[key].title,
           resData[key].imageUrl,
           resData[key].description,
@@ -34,7 +31,7 @@ export const fetchProducts = () => {
         )))
       }
 
-      dispatch({type: SET_PRODUCTS, products: loadedProducts})
+      dispatch({type: SET_PRODUCTS, products: loadedProducts, userProducts: loadedProducts.filter(prod => prod.ownerId === userId)})
 
     } catch (err) {
       console.log('error- ', err)
@@ -43,8 +40,9 @@ export const fetchProducts = () => {
 }
 
 export const deleteProduct = productId => {
-  return async dispatch => {
-    const response = await fetch(`https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products/${productId}.json`, {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token
+    const response = await fetch(`https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products/${productId}.json?auth=${token}`, {
       method: 'DELETE', //only update in changed areas
     })
     if (!response.ok) {
@@ -58,8 +56,10 @@ export const deleteProduct = productId => {
 
 export const createProduct = (title, description, imageUrl, price) => {
   console.log('createProduct action called')
-  return async dispatch => {
-    const response = await fetch('https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products.json', {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token
+    const userId = getState().auth.userId
+    const response = await fetch(`https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products.json?auth=${token}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -68,7 +68,8 @@ export const createProduct = (title, description, imageUrl, price) => {
         title,
         description,
         imageUrl,
-        price
+        price,
+        ownerId: userId
       })
     })
 
@@ -81,14 +82,16 @@ export const createProduct = (title, description, imageUrl, price) => {
       title,
       description,
       imageUrl,
-      price
+      price,
+      ownerId: userId
     }})
   }
 }
 
 export const updateProduct = (id, title, description, imageUrl) => {
-  return async dispatch => { 
-    await fetch(`https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products/${id}.json`, {
+  return async (dispatch, getState) => { 
+    const token = getState().auth.token
+    await fetch(`https://native-tutorial-8fb22-default-rtdb.asia-southeast1.firebasedatabase.app/products/${id}.json?auth=${token}`, {
       method: 'PATCH', //only update in changed areas
       headers: {
         'Content-Type': 'application/json'

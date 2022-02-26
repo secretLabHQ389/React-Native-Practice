@@ -1,7 +1,8 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  Button
+  Button,
+  StyleSheet
 } from 'react-native'
 import {
   FlatList,
@@ -28,6 +29,14 @@ const UserProductsScreen = props => {
 
   const deleteHandler = id => {
     Alert.alert('Are you sure?', 'Do you really want to delete this item?', [{text: 'No', style: 'default'}, {test: 'Yes', style: 'destructive', onPress: () => dispatch(deleteProduct(id))}])
+  }
+
+  if (userProducts.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No products found, you may begin creating some!</Text>
+      </View>
+    )
   }
 
   return (
@@ -89,5 +98,13 @@ UserProductsScreen.navigationOptions = navData => {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 export default UserProductsScreen

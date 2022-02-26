@@ -132,7 +132,6 @@ const EditProductScreen = props => {
   }, [submitHandler])
 
   const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
-    
     dispatchFormState({
       type: FORM_UPDATE, 
       value: inputValue, 
