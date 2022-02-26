@@ -1,12 +1,9 @@
-import React, {useState} from 'react'
-import {
-  View
-} from 'react-native'
+import React from 'react'
+import PlacesNavigator from './navigation/PlacesNavigator'
 
 const App = () => {
-
   return (
-    <View></View>
+    <PlacesNavigator />
   )
 }
 
