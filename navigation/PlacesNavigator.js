@@ -4,7 +4,6 @@ import PlacesListScreen from '../screens/PlacesListScreen'
 import PlaceDetailScreen from '../screens/PlaceDetailScreen'
 import NewPlaceScreen from '../screens/NewPlaceScreen'
 import MapScreen from '../screens/MapScreen'
-import Color from '../constants/Colors'
 import Colors from '../constants/Colors'
 
 const PlacesNavigator = createStackNavigator({
