@@ -24,6 +24,7 @@ import Colors from '../../constants/Colors'
 const ProductsOverviewScreen = props => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState()
+  const [refreshing, setRefreshing] = useState(false)
   const {navigation} = props
   const products = useSelector(state => state.products.availableProducts)
   console.log('products: ', products)
@@ -39,13 +40,14 @@ const ProductsOverviewScreen = props => {
   }
 
   const loadProducts = useCallback(async () => {
-    setIsLoading(true)
+    setError(null)
+    setRefreshing(true)
     try {
       await dispatch(productActions.fetchProducts())
     } catch (err) {
       setError(err.message)
     }
-    setIsLoading(false)
+    setRefreshing(false)
   }, [setIsLoading, setError])
 
   //make sure the data is fetched, or anything else happens, 
@@ -58,7 +60,10 @@ const ProductsOverviewScreen = props => {
   }, [loadProducts])
 
   useEffect(() => {
-    loadProducts()
+    setIsLoading(true)
+    loadProducts().then(() => {
+      setIsLoading(false)
+    })
   }, [loadProducts])
 
   if (error) {
@@ -89,6 +94,8 @@ const ProductsOverviewScreen = props => {
   return (
     <ScrollView>
       <FlatList 
+        onRefresh={loadProducts}
+        refreshing={refreshing}
         data={products}
         key={Math.random()}
         //keyExtractor={item => item.title} //newer RN doesnt need

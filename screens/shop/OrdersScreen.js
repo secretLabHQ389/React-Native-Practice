@@ -22,14 +22,14 @@ import * as ordersActions from '../../store/actions/orders'
 const OrdersScreen = props => {
   const orders = useSelector(state => state.orders.orders)
   const dispatch = useDispatch()
-
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
     //add error handling to prevent constant loading:
     dispatch(ordersActions.fetchOrders()).then(setIsLoading(false))
-  }, [])
+    //dispatch sometimes doesnt work as a dependency-
+  }, [dispatch])
 
   if (isLoading) {
     return (
