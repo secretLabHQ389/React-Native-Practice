@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   View,
   Button,
@@ -13,9 +13,18 @@ import Colors from '../constants/Colors'
 import MapPreview from './MapPreview'
 
 const LocationPicker = props => {
-  const { navigation } = props
+  const { navigation, onLocationPicked } = props
   const [isFetching, setIsFetching] = useState(false)
   const [pickedLocation, setPickedLocation] = useState()
+
+  const mapPickedLocation = navigation.gtParam('pickedLocation')
+
+  useEffect(() => {
+    if (mapPickedLocation) {
+      setPickedLocation(mapPickedLocation)
+      onLocationPicked(mapPickedLocation)
+    }
+  }, [mapPickedLocatio, onLocationPicked])
 
   const verifyPermissions = async () => {
     const result = await Permissions.askAsync(Permissions.LOCATION)
@@ -42,6 +51,10 @@ const LocationPicker = props => {
       })
       console.log(location)
       setPickedLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude
+      })
+      onLocationPicked({
         lat: location.coords.latitude,
         lng: location.coords.longitude
       })

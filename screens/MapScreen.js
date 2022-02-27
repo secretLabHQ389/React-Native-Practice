@@ -10,16 +10,21 @@ import Colors from '../constants/Colors'
 
 const MapScreen = props => {
   const { navigation } = props
-  const [selectedLocation, setSelectedLocation] = useState()
+  const readonly = navigation.getParam('readonly')
+  const initialLocation = navigation.getParam('initialLocation')
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation)
 
   const mapRegion = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.lat : 37.78,
+    longitude: initialLocation ? initialLocation.lng : -122.43,
     latitudeDelta: 0.0922, //size of viewport
     longitudeDelta: 0.0421
   }
 
   const selectLocationHandler = event => {
+    if (readonly) {
+      return
+    }
     console.log(event)
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
@@ -51,6 +56,7 @@ const MapScreen = props => {
     <MapView
       region={mapRegion}
       style={styles.map}
+      onPress={selectLocationHandler}
       >
         {markerCoordinates && <Marker title='Picked Location' coordinate={markerCoordinates}></Marker>}
     </MapView>
@@ -59,6 +65,10 @@ const MapScreen = props => {
 
 MapScreen.navigationOptions = navData => {
   const saveFn = navData.navigation.getParam('saveLocation')
+  const readonly = navData.navigation.getParam('readonly')
+  if (readonly) {
+    return {}
+  }
   return {
     headerRight: (
       <TouchableOpacity style={styles.headerButton} onPress={saveFn}>
