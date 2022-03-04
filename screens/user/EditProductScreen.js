@@ -218,7 +218,7 @@ const EditProductScreen = props => {
   )
 }
 
-EditProductScreen.navigationOptions = navData => {
+export const EditProductScreenOptions = navData => {
   const submitFn = navData.navigation.getParam('submit')
   return {
     headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add product',

@@ -8,7 +8,7 @@ import productsReducer from './store/reducers/products'
 import cartReducer from './store/reducers/cart'
 import ordersReducer from './store/reducers/orders'
 import authReducer from './store/reducers/auth'
-import NavigationContainer from './navigation/NavigationContainer'
+import AppNavigator from './navigation/AppNavigator'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import ReduxThunk from 'redux-thunk'
 
@@ -41,7 +41,7 @@ const App = () => {
   }
   return (
     <Provider store={store}>
-      <NavigationContainer />
+      <AppNavigator />
     </Provider>
   )
 }

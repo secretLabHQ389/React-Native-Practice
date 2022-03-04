@@ -133,11 +133,11 @@ const ProductsOverviewScreen = props => {
   )
 }
 
-ProductsOverviewScreen.navigationOptions = navData => {
+export const ProductsOverviewScreenOptions = navData => {
   const { navigation } = navData
   return {
     headerTitle: 'All Products',
-    headerLeft: (
+    headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item 
           title='Menu'
@@ -149,7 +149,7 @@ ProductsOverviewScreen.navigationOptions = navData => {
           />
     </HeaderButtons>
     ),
-    headerRight: <HeaderButtons HeaderButtonComponent={HeaderButton}>
+    headerRight: () => (<HeaderButtons HeaderButtonComponent={HeaderButton}>
       <Item 
         title='Cart'
         iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
@@ -157,7 +157,7 @@ ProductsOverviewScreen.navigationOptions = navData => {
           navigation.navigate('Cart')
         }}
         />
-    </HeaderButtons>
+    </HeaderButtons>)
   }
 }
 

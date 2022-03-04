@@ -151,7 +151,7 @@ const AuthScreen = props => {
   )
 }
 
-AuthScreen.navigationOptions = {
+export const AuthScreenOptions = {
   headerTitle: 'Authenticate'
 }
 
