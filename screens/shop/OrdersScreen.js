@@ -67,7 +67,7 @@ export const OrdersScreenOptions = navData => {
   const { navigation } = navData
   return {
     headerTitle: 'Your Orders',
-    headerLeft: <HeaderButtons HeaderButtonsComponent={HeaderButton}>
+    headerLeft: () => (<HeaderButtons HeaderButtonsComponent={HeaderButton}>
       <Item 
         title='Menu'
         iconName={Platform.OS === 'android' ? 'md-menu' : 'ios-menu'}
@@ -75,7 +75,7 @@ export const OrdersScreenOptions = navData => {
           navigation.toggleDrawer()
         }}
         />
-    </HeaderButtons>
+    </HeaderButtons>)
   }
 }
 

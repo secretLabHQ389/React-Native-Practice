@@ -52,10 +52,18 @@ const ProductsOverviewScreen = props => {
 
   //make sure the data is fetched, or anything else happens, 
   //every time user enters this screen
+  // useEffect(() => {
+  //   const willFocusSub = navigation.addListener('willFocus', loadProducts)
+  //   return () => {
+  //     willFocusSub.remove()
+  //   }
+  // }, [loadProducts])
+
   useEffect(() => {
-    const willFocusSub = navigation.addListener('willFocus', loadProducts)
+    const unsubscribe = navigation.addListener('focus',loadProducts)
+
     return () => {
-      willFocusSub.remove()
+      unsubscribe()
     }
   }, [loadProducts])
 

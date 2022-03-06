@@ -8,7 +8,8 @@ import {
 import Colors from '../constants/Colors'
 import { useDispatch } from 'react-redux'
 import {
-  authenticate
+  authenticate,
+  setDidTryAl
 } from '../store/actions/auth'
 
 const StartupScreen = props => {
@@ -19,14 +20,16 @@ const StartupScreen = props => {
     const tryLogin = async () => {
       const userData = await AsyncStorage.getItem('userData')
       if (!userData) {
-        navigation.navigate('Auth')
+        //navigation.navigate('Auth')
+        dispatch(setDidTryAl())
         return
       }
       const transformedData = JSON.parse(userData)
       const {token, userId, expirtDate} = transformedData
       const expirationDate = new Date(expirtDate) //change back to date from iso string
       if (expirationDate <= new Date() || !token || !userId) {
-        navigation.navigate('Auth')
+        //navigation.navigate('Auth')
+        dispatch(setDidTryAl())
         return
       }
       const expirationTime = expirationDate.getTime() - new Date().getTime()

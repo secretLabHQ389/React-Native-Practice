@@ -60,9 +60,9 @@ const formReducer = (state, action) => {
 const EditProductScreen = props => {
   cosnt [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { navigation } = props
+  const { navigation, route } = props
   const dispatch = useDispatch()
-  const prodId = navigation.getParam('productId')
+  const prodId = route.params ? route.params.productId : null //navigation.getParam('productId')
   const editedProduct = useSelector(state => 
     state.products.userProducts.find(prod => prod.id === prodId)
   )
@@ -90,7 +90,8 @@ const EditProductScreen = props => {
   }, [error])
   
   const submitHandler = useCallback(async () => {
-    console.log('Submitting: ',          formState.inputValues.title,
+    console.log('Submitting: ',          
+    formState.inputValues.title,
     formState.inputValues.description,
     formState.inputValues.imageUrl,
     +formState.inputValues.price)
@@ -128,7 +129,17 @@ const EditProductScreen = props => {
   [/*dispatch,*/ prodId, formState])
 
   useEffect(() => {
-    navigation.setParams({'submit': submitHandler})
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item 
+            title='Save'
+            iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
+            onPress={submitHandler}
+            />
+        </HeaderButtons>
+      )
+    }) //setParams({'submit': submitHandler})
   }, [submitHandler])
 
   const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
@@ -219,18 +230,11 @@ const EditProductScreen = props => {
 }
 
 export const EditProductScreenOptions = navData => {
-  const submitFn = navData.navigation.getParam('submit')
+  //const submitFn = navData.navigation.getParam('submit')
+  //const submitFn = navData.route.params ? navData.route.params.submit : null
+  const routeParams = navData.route.params ? navData.route.params : {}
   return {
-    headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add product',
-    headerRight: (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item 
-          title='Save'
-          iconName={Platform.OS === 'android' ? 'md-checkmark' : 'ios-checkmark'}
-          onPress={submitFn}
-          />
-      </HeaderButtons>
-    )
+    headerTitle: routeParams.productId ? 'Edit Product' : 'Add product'
   }
 }
 
