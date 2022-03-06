@@ -1,15 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   View,
   Text,
   ScrollView,
   Image,
   Button,
+  Alert,
   StyleSheet
 } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import Colors from '../../constants/Colors'
 import * as cartActions from '../../store/actions/cart'
+import * as Notifications from 'expo-notifications'
+import * as Permissions from 'expo-permissions'
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldShowAlert: true
+    }
+  }
+})
 
 const ProductDetailScreen = props => {
   const { navigation, route } = props
@@ -17,6 +28,49 @@ const ProductDetailScreen = props => {
   const productId = route.params.productId //navigation.getParam('productId')
   const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
   
+  useEffect(() => {
+    //only for iOS:
+    Permissions.getAsync(Permissions.NOTIFICATIONS).then(statusObj => {
+      if (statusObj.status !== 'granted') {
+        return Permissions.askAsync(Permissions.NOTIFICATIONS)
+      }
+      return statusObj
+    }).then(statusObj => {
+      if (statusObj.status !== 'granted') {
+        Alert.alert('Allow notifications for response.')
+        return
+      }
+    })
+  } , [])
+
+  useEffect(() => {
+    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response)
+    })
+
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
+      console.log(notification)
+    })
+
+    return () => {
+      backgroundSubscription.remove()
+      foregroundSubscription.remove()
+    }
+  }, [])
+
+  const addToCartHandler = () => {
+    dispatch(cartActions.addToCart(selectedProduct))
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Item added to cart',
+        body: 'Checkout now or keep shoppping.'
+      },
+      trigger: {
+        seconds: 2
+      }
+    })
+  }
+
   return (
     <ScrollView>
       <Image
@@ -28,9 +82,7 @@ const ProductDetailScreen = props => {
             title='Add to Cart'
             color={Colors.primaryColor}
             style={styles.button}
-            onPress={() => {
-              dispatch(cartActions.addToCart(selectedProduct))
-            }}
+            onPress={addToCartHandler}
             />
         </View>
       <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
